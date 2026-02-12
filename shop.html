@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Urban Threads - Shop</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">Urban Threads</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="cart.html" id="nav-cart-link2">Cart</a>
+      <a href="login.html" id="nav-auth-link2">Sign In</a>
+      <span id="nav-user2" class="hidden"></span>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h2>Shop</h2>
+    <div id="shop-grid" class="grid"></div>
+  </main>
+
+  <script type="module" src="./firebase-config.js"></script>
+  <script type="module" src="./shop.js"></script>
+  <script type="module" src="./auth.js"></script>
+  <script type="module">
+    import { onAuthStateChanged, auth } from "./firebase-config.js";
+    onAuthStateChanged((user) => {
+      if (user) {
+        document.getElementById("nav-user2").textContent = user.email;
+        document.getElementById("nav-user2").classList.remove("hidden");
+      }
+    });
+  </script>
+</body>
+</html>

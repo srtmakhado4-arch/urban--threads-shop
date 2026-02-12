@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Urban Threads - Landing</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">Urban Threads</div>
+    <nav>
+      <a href="shop.html">Shop</a>
+      <a href="cart.html" id="nav-cart-link">Cart</a>
+      <a href="login.html" id="nav-auth-link">Sign In</a>
+      <span id="nav-user" class="hidden"></span>
+    </nav>
+  </header>
+
+  <main class="container hero">
+    <h1>Streetwear for the bold</h1>
+    <p>Your vibe, your style. Browse the latest drops and build your fit.</p>
+    <a class="btn" href="shop.html">Shop Now</a>
+  </main>
+
+  <script type="module" src="./firebase-config.js"></script>
+  <script type="module" src="./auth.js"></script>
+  <script type="module">
+    import { onAuthStateChanged } from "./firebase-config.js";
+    onAuthStateChanged((user) => {
+      const userEl = document.getElementById("nav-user");
+      const authLink = document.getElementById("nav-auth-link");
+      if (user) {
+        userEl.textContent = user.email;
+        userEl.classList.remove("hidden");
+        authLink.textContent = "Sign Out";
+        authLink.onclick = async (e) => {
+          e.preventDefault();
+          await import("./auth.js").then(m => m.signOutUser?.());
+          window.location.reload();
+        };
+      } else {
+        userEl.classList.add("hidden");
+        authLink.textContent = "Sign In";
+        authLink.onclick = null;
+      }
+    });
+  </script>
+</body>
+</html>
